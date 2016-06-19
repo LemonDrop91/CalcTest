@@ -3,91 +3,101 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
-namespace ConsoleApplication6
+namespace ConsoleApplication12
 {
     class Program
     {
-
-        const double theFirstNumber = 0;
-        const double theSecondNumber = 0;
-
         static void Main(string[] args)
         {
-            
-            double theFirstNumber = readDouble("please enter a number: ");                 //gets first number
 
-            
-            double theSecondNumber = readDouble("please enter another number: ");          //gets second number
+            var theIncident = new Dictionary<string, string>();
 
-            Console.WriteLine("Please enter a sign: + - * /");                             //reads your sign, performs the action
-            string ReadTheSign = Console.ReadLine();
-            switch (ReadTheSign)
+            Console.WriteLine("Welcome! Please give a title for this Bug:");
+            string UserInputTitle = Console.ReadLine();
+            Console.WriteLine("\n");
+            theIncident.Add("the Title", UserInputTitle);
+
+            Console.WriteLine("Please describe the problem:");
+            string UserInputProblem = Console.ReadLine();
+            Console.WriteLine("\n");
+            theIncident.Add("the Problem", UserInputProblem);
+
+            Console.WriteLine("Now please describe the solution:");
+            string UserInputSolution = Console.ReadLine();
+            Console.WriteLine("\n");
+            theIncident.Add("the Solution", UserInputSolution);
+
+            Console.WriteLine("Here is the record you made of this Bug: \n");
+
+
+            var keys = theIncident.Keys;
+
+            foreach (var key in keys)
             {
-                case "+":
-                    Console.WriteLine("the result is " + Added(theFirstNumber, theSecondNumber));
-                    break;
+                Console.WriteLine(key + ": " + theIncident[key]);
+            }
+            Console.ReadLine();
+            
+            string mydocpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-                case "-":
-                    Console.WriteLine("the result is " + Subtracted(theFirstNumber, theSecondNumber));
-                    break;
 
-                case "*":
-                    Console.WriteLine("the result is " + Multiplied(theFirstNumber, theSecondNumber));
-                    break;
-
-                case "/":
-                    Console.WriteLine("the result is " + Divided(theFirstNumber, theSecondNumber));
-                    break;
-                default:
-                    Console.WriteLine("this is not a valid operation");
-                    break;
+            using (CsvFileWriter writer = new CsvFileWriter(mydocpath + @"\LemonDropBugs.csv", true)) 
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    CsvRow Row = new CsvRow();
+                    
+                    
+                    Row.Add(String.Format(theIncident["the Title"]));
+                    Row.Add(String.Format(theIncident["the Problem"]));
+                    Row.Add(String.Format(theIncident["the Solution"]));
+                    writer.WriteRow(Row);
+                    
+                    
+                }
             }
 
+	
         }
 
 
-        public static double readDouble(string label)
+
+
+        public class CsvRow : List<string>
         {
-            double thevalue1 = 0;
-            for (int i = 0; i <= 2; i++)
+            public string LineText { get; set; }
+        }
+
+        public class CsvFileWriter : StreamWriter
+        {
+            public CsvFileWriter(Stream stream)
+                : base(stream)
             {
-                Console.WriteLine(label);
-                string input = Console.ReadLine();
-                if (double.TryParse(input, out thevalue1))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("this isn't a real value.");
-                    if (i == 2)
-                        Environment.Exit(2);
-                }
-
             }
-            return thevalue1;
+            public CsvFileWriter(string filename, Boolean existornot)
+                : base(filename, true)
+            {
+            }
+            public void WriteRow(CsvRow row)
+            {
+                StringBuilder builder = new StringBuilder();
+                bool firstColumn = true;
+                foreach (string value in row)
+                {
+                    if (!firstColumn)
+                        builder.Append(',');
+                    if (value.IndexOfAny(new char[] { '"', ',' }) != -1)
+                        builder.AppendFormat("\"{0}\"", value.Replace("\"", "\"\""));
+                    else
+                        builder.Append(value);
+                    firstColumn = false;
+                }
+                row.LineText = builder.ToString();
+                WriteLine(row.LineText);
+            }
         }
-
-        static double Added(double myval1, double myval2)
-        {
-            return myval1 + myval2;
-        }
-        static double Subtracted(double myval1, double myval2)
-        {
-            return myval1 - myval2;
-        }
-        static double Multiplied(double myval1, double myval2)
-        {
-            return myval1 * myval2;
-        }
-        static double Divided(double myval1, double myval2)
-        {
-            return myval1 / myval2;
-        }
-
-
-
 
 
 
