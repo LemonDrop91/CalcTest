@@ -1,36 +1,30 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
-namespace ConsoleApplication12
-{
-    class Program
+
+    class lemonbug
     {
         static void Main(string[] args)
         {
 
             var theIncident = new Dictionary<string, string>();
 
-            Console.WriteLine("Welcome! Please give a title for this Bug:");
+            Console.WriteLine("incident title:");
             string UserInputTitle = Console.ReadLine();
             Console.WriteLine("\n");
             theIncident.Add("the Title", UserInputTitle);
 
-            Console.WriteLine("Please describe the problem:");
+            Console.WriteLine("incident description:");
             string UserInputProblem = Console.ReadLine();
             Console.WriteLine("\n");
             theIncident.Add("the Problem", UserInputProblem);
 
-            Console.WriteLine("Now please describe the solution:");
+            Console.WriteLine("incident solution");
             string UserInputSolution = Console.ReadLine();
             Console.WriteLine("\n");
             theIncident.Add("the Solution", UserInputSolution);
-
-            Console.WriteLine("Here is the record you made of this Bug: \n");
-
 
             var keys = theIncident.Keys;
 
@@ -61,9 +55,6 @@ namespace ConsoleApplication12
 
 	
         }
-
-
-
 
         public class CsvRow : List<string>
         {
@@ -98,10 +89,4 @@ namespace ConsoleApplication12
                 WriteLine(row.LineText);
             }
         }
-
-
-
-
-
     }
-}
