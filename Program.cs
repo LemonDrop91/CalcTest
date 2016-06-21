@@ -1,19 +1,27 @@
-﻿using System;
+// rename your source file other than something than program.cs 
+// and why is it under the Calculator project? lol
+
+// ensure you're only using namespaces that's required for your program's operation,
+// if you're not going to use the library, don't include it. proper memory allocation
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+
+// name your namespace a proper title to be easily remembered
 
 namespace ConsoleApplication12
 {
-    class Program
+    class Program									// class naming as well
     {
         static void Main(string[] args)
         {
 
             var theIncident = new Dictionary<string, string>();
 
+            // short and sweet
             Console.WriteLine("Welcome! Please give a title for this Bug:");
             string UserInputTitle = Console.ReadLine();
             Console.WriteLine("\n");
@@ -62,8 +70,17 @@ namespace ConsoleApplication12
 	
         }
 
+//		try {
+//				stuff
+//		catch (Exception FileNotFoundException) {
+//				'not found!'
+//		}
+//
+//		or catch (Exception e) <-- your own variable)
+//		Console.WriteLine(e);		It'll show you the exact exception so you can handle it next time
 
 
+//		handy class
 
         public class CsvRow : List<string>
         {
